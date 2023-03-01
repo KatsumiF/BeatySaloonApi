@@ -12,6 +12,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c=>c.EnableAnnotations());//отвечает за автоматическую генерацию документации, подключены аннотации)
 
 builder.Services.AddDbContext<BeautySaloonBaseContext>(options=>options.UseSqlServer(builder.Configuration.GetConnectionString("BeautySaloonBase")));
+builder.Services.AddMvcCore();
+
 
 var app = builder.Build();
 

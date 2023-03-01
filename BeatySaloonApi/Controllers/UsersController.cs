@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BeatySaloonApi.Models;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace BeatySaloonApi.Controllers
 {
@@ -22,13 +23,16 @@ namespace BeatySaloonApi.Controllers
 
         // GET: api/Users
         [HttpGet]
+        [SwaggerOperation(Summary = "Вывод пользователей", Description = "Полное описание")]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
             return await _context.Users.ToListAsync();
+          //  return await _context.Users.Include(x =>x.Clients).ToListAsync();
         }
 
         // GET: api/Users/5
-        [HttpGet("{userLogin}")]
+        [HttpGet("{UserLogin}")]
+        [SwaggerOperation(Summary = "Вывод пользователей по идентификатору", Description = "Полное описание")]
         public async Task<ActionResult<User>> GetUser(string UserLogin)
         {
             var user = await _context.Users.FindAsync(UserLogin);
@@ -43,10 +47,10 @@ namespace BeatySaloonApi.Controllers
 
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{userLogin}")]
-        public async Task<IActionResult> PutUser(string userLogin, User user)
+        [HttpPut("{UserLogin}")]
+        public async Task<IActionResult> PutUser(string UserLogin, User user)
         {
-            if (userLogin != user.UserLogin)
+            if (UserLogin != user.UserLogin)
             {
                 return BadRequest();
             }
@@ -59,7 +63,7 @@ namespace BeatySaloonApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(userLogin))
+                if (!UserExists(UserLogin))
                 {
                     return NotFound();
                 }
@@ -94,14 +98,14 @@ namespace BeatySaloonApi.Controllers
                 }
             }
 
-            return CreatedAtAction("GetUser", new { userLogin = user.UserLogin }, user);
+            return CreatedAtAction("GetUser", new { UserLogin = user.UserLogin }, user);
         }
 
         // DELETE: api/Users/5
-        [HttpDelete("{userLogin}")]
-        public async Task<IActionResult> DeleteUser(string userLogin)
+        [HttpDelete("{UserLogin}")]
+        public async Task<IActionResult> DeleteUser(string UserLogin)
         {
-            var user = await _context.Users.FindAsync(userLogin);
+            var user = await _context.Users.FindAsync(UserLogin);
             if (user == null)
             {
                 return NotFound();
@@ -113,9 +117,9 @@ namespace BeatySaloonApi.Controllers
             return NoContent();
         }
 
-        private bool UserExists(string userLogin)
+        private bool UserExists(string UserLogin)
         {
-            return _context.Users.Any(e => e.UserLogin == userLogin);
+            return _context.Users.Any(e => e.UserLogin == UserLogin);
         }
     }
 }
