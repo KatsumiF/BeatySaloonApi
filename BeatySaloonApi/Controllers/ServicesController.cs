@@ -49,6 +49,7 @@ namespace BeatySaloonApi.Controllers
         // PUT: api/Services/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkId=2123754
         [HttpPut("{Id}")]
+        [SwaggerOperation(Summary = "Внесение изменений", Description = "Полное описание")]
         public async Task<IActionResult> PutService(int Id, Service service)
         {
             if (Id != service.Id)
@@ -80,6 +81,7 @@ namespace BeatySaloonApi.Controllers
         // POST: api/Services
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkId=2123754
         [HttpPost]
+        [SwaggerOperation(Summary = "Добавление сервисов", Description = "Полное описание")]
         public async Task<ActionResult<Service>> PostService(Service service)
         {
             _context.Services.Add(service);
@@ -90,6 +92,9 @@ namespace BeatySaloonApi.Controllers
 
         // DELETE: api/Services/5
         [HttpDelete("{Id}")]
+        [SwaggerOperation(Summary = "Удаление сервисов", Description = "Полное описание")
+            ]
+
         public async Task<IActionResult> DeleteService(int Id)
         {
             var service = await _context.Services.FindAsync(Id);
